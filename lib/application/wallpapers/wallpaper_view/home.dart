@@ -53,8 +53,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
+      appBar: appbar(context),
       body: SingleChildScrollView(
         physics: const NeverScrollableScrollPhysics(),
         child: Consumer<WallpapersStore>(builder: (_, store, __) {
@@ -64,7 +63,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey[50],
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -79,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                         },
                         controller: _searchController,
                         decoration: const InputDecoration(
-                          hintText: 'searchText',
+                          hintText: 'Searsh Wallpapers',
                           border: InputBorder.none,
                         ),
                       ),
@@ -104,7 +103,6 @@ class _HomePageState extends State<HomePage> {
                   itemCount: store.categorieList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      splashColor: Colors.white,
                       onTap: () async {
                         store.sellectCategorie(index);
                         await store.searshWallpaper(
@@ -123,7 +121,6 @@ class _HomePageState extends State<HomePage> {
               const Text(
                 "Discover new photos",
                 style: TextStyle(
-                    color: Colors.black87,
                     fontFamily: 'Overpass',
                     fontWeight: FontWeight.bold,
                     fontSize: 20),

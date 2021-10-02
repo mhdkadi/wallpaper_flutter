@@ -13,11 +13,14 @@ class CategorieWidget extends StatelessWidget {
           label: Text(
             categorie.categorieName,
             style: TextStyle(
-              color: categorie.isSellected ? Colors.white : Colors.black,
+              color: categorie.isSellected
+                  ? Theme.of(context).splashColor
+                  : Theme.of(context).primaryColor,
             ),
           ),
-          backgroundColor:
-              categorie.isSellected ? Colors.blue : Colors.greenAccent[50],
+          backgroundColor: categorie.isSellected
+              ? Theme.of(context).highlightColor
+              : Theme.of(context).cardColor,
         ),
         const SizedBox(
           width: 5,

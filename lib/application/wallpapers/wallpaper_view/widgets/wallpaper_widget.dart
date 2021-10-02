@@ -28,11 +28,9 @@ Widget wallPaper() {
               },
               child: Container(
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16),
-                    gradient: const RadialGradient(
-                        center: Alignment.bottomRight,
-                        radius: 0.5,
-                        colors: [Color(0xfff5f8fd), Color(0xfff5f8fd)])),
+                  borderRadius: BorderRadius.circular(16),
+                  color: Theme.of(context).cardColor,
+                ), //(0xfff5f8fd)
                 child: Column(
                   children: [
                     Hero(
@@ -57,7 +55,6 @@ Widget wallPaper() {
                     const Text(
                       "Description",
                       style: TextStyle(
-                          color: Colors.black,
                           fontFamily: 'Overpass',
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
@@ -66,8 +63,8 @@ Widget wallPaper() {
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(
                         "${item.description}",
-                        style: const TextStyle(
-                            color: Colors.black54,
+                        style: TextStyle(
+                            color: Theme.of(context).shadowColor,
                             fontFamily: 'Overpass',
                             fontWeight: FontWeight.bold,
                             fontSize: 12),
@@ -79,15 +76,14 @@ Widget wallPaper() {
                     const Text(
                       "photographer",
                       style: TextStyle(
-                          color: Colors.black,
                           fontFamily: 'Overpass',
                           fontWeight: FontWeight.bold,
                           fontSize: 15),
                     ),
                     Text(
                       "${item.photographer}",
-                      style: const TextStyle(
-                          color: Colors.black54,
+                      style: TextStyle(
+                          color: Theme.of(context).shadowColor,
                           fontFamily: 'Overpass',
                           fontWeight: FontWeight.bold,
                           fontSize: 12),

@@ -19,7 +19,7 @@ class Image extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: wallpaper.urls['small'],
             placeholder: (context, url) => Container(
-              color: const Color(0xfff5f8fd),
+              color: const Color(0xfff5f8fd), ////
             ),
             fit: BoxFit.cover,
           ),
