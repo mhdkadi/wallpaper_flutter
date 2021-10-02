@@ -14,15 +14,15 @@ class Image extends StatelessWidget {
   Widget build(BuildContext context) {
     return Hero(
       tag: wallpaper.urls['small'],
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: CachedNetworkImage(
-          imageUrl: wallpaper.urls['small'],
-          placeholder: (context, url) => Container(
-            color: const Color(0xfff5f8fd),
+      child: FittedBox(
+        child: SizedBox(
+          child: CachedNetworkImage(
+            imageUrl: wallpaper.urls['small'],
+            placeholder: (context, url) => Container(
+              color: const Color(0xfff5f8fd),
+            ),
+            fit: BoxFit.cover,
           ),
-          fit: BoxFit.cover,
         ),
       ),
     );
