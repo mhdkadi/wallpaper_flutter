@@ -9,6 +9,4 @@ void main() {
     module: AppModule(),
     child: const AppWidget(),
   ));
-  ///hi
-  ///test
 }
