@@ -9,11 +9,12 @@ class NoInternetConnection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text('No Internet Connection'),
-        Consumer<WallpapersStore>(builder: (context, store, child) {
+        Consumer<WallpapersStore>(builder: (_, store, __) {
           return ElevatedButton(
-            onPressed: () => store.getWallpaper(),
+            onPressed: () => store.getWallpaper(page: 0),
             child: const Text('Try again'),
           );
         }),
