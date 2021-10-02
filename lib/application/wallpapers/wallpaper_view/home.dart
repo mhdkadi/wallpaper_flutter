@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/widgets/app_bar.dart';
 import '../../../core/widgets/loading.dart';
@@ -19,11 +20,34 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   WallpapersStore? _wallpapersStore;
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  int pageIndex = 2;
   @override
   void initState() {
     _wallpapersStore = Provider.of<WallpapersStore>(context, listen: false);
-    _wallpapersStore!.getWallpaper();
+    _wallpapersStore!.getWallpaper(page: 0);
     super.initState();
+  }
+
+  void onRefresh({required WallpapersStore store}) async {
+    await store
+        .getWallpaper(page: 0)
+        .onError((_, __) => _refreshController.refreshCompleted());
+    _searchController.text = '';
+    store.sellectCategorie(0);
+    _refreshController.refreshCompleted();
+  }
+
+  void onLoading({required WallpapersStore store}) async {
+    await store
+        .loadMoreWallpaper(page: pageIndex)
+        .then((_) => pageIndex++)
+        .onError((_, __) {
+      _refreshController.loadComplete();
+      return 0;
+    });
+    _refreshController.loadComplete();
   }
 
   @override
@@ -32,7 +56,8 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
       appBar: appBar,
       body: SingleChildScrollView(
-        child: Consumer<WallpapersStore>(builder: (context, store, child) {
+        physics: const NeverScrollableScrollPhysics(),
+        child: Consumer<WallpapersStore>(builder: (_, store, __) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,6 +73,10 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: TextField(
+                        onSubmitted: (value) async {
+                          store.sellectCategorie(0);
+                          await store.searshWallpaper(searshQuery: value);
+                        },
                         controller: _searchController,
                         decoration: const InputDecoration(
                           hintText: 'searchText',
@@ -56,9 +85,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         store.sellectCategorie(0);
-                        store.searshWallpaper(
+                        await store.searshWallpaper(
                             searshQuery: _searchController.text);
                       },
                       child: const Icon(Icons.search),
@@ -76,9 +105,9 @@ class _HomePageState extends State<HomePage> {
                   itemBuilder: (context, index) {
                     return InkWell(
                       splashColor: Colors.white,
-                      onTap: () {
+                      onTap: () async {
                         store.sellectCategorie(index);
-                        store.searshWallpaper(
+                        await store.searshWallpaper(
                             searshQuery:
                                 store.categorieList[index].categorieName);
                         _searchController.text = '';
@@ -104,16 +133,27 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(
                 height: 590,
-                child: Observer(builder: (_) {
-                  switch (_wallpapersStore!.state) {
-                    case StoreState.initial:
-                      return const NoInternetConnection();
-                    case StoreState.loading:
-                      return const Loading();
-                    case StoreState.loaded:
-                      return wallPaper(store.wallpapers);
-                  }
-                }),
+                child: SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: () {
+                    onRefresh(store: store);
+                  },
+                  onLoading: () {
+                    onLoading(store: store);
+                  },
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  child: Observer(builder: (_) {
+                    switch (_wallpapersStore!.state) {
+                      case StoreState.initial:
+                        return const NoInternetConnection();
+                      case StoreState.loading:
+                        return const Loading();
+                      case StoreState.loaded:
+                        return wallPaper();
+                    }
+                  }),
+                ),
               ),
             ],
           );

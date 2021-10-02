@@ -52,10 +52,10 @@ abstract class _WallpapersStore with Store {
   }
 
   @action
-  Future<void> getWallpaper() async {
+  Future<void> getWallpaper({required int page}) async {
     try {
       _wallpapersFuture =
-          ObservableFuture(_wallpaperController.getPhotos(page: 1));
+          ObservableFuture(_wallpaperController.getPhotos(page: page));
       wallpapers = await _wallpapersFuture;
     } on DioError {
       print('DioError');
@@ -74,6 +74,20 @@ abstract class _WallpapersStore with Store {
   }
 
   @action
+  Future<void> loadMoreWallpaper({required int page}) async {
+    try {
+      Wallpapers newWallpapers = wallpapers!;
+      Wallpapers? morewallpapers =
+          await _wallpaperController.getPhotos(page: page);
+      newWallpapers.wallpapersList =
+          wallpapers!.wallpapersList + morewallpapers.wallpapersList;
+      wallpapers = newWallpapers;
+    } on DioError {
+      print('DioError');
+    }
+  }
+
+  @action
   Future<void> searshWallpaper({required String searshQuery}) async {
     try {
       if (searshQuery.isNotEmpty && searshQuery != 'All') {
@@ -81,18 +95,10 @@ abstract class _WallpapersStore with Store {
             page: 1, searshQuery: searshQuery));
         wallpapers = await _wallpapersFuture;
       } else {
-        getWallpaper();
+        getWallpaper(page: 0);
       }
     } on DioError {
       print('DioError');
     }
   }
 }
-// @action
-//   void sellectCategorie(int index) {
-//     List<Categorie> categorieList2;
-//     for (int i = 0; i < categorieList.length; i++) {
-//       categorieList[i].isSellected = false;
-//     }
-//     categorieList[index].isSellected = true;
-//   }
