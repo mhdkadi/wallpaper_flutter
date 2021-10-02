@@ -14,7 +14,7 @@ class AppModule extends Module {
           child: (context, args) => const HomePage(),
         ),
         ChildRoute(
-          '/iamge',
+          '/imageScreen',
           child: (context, args) => Image(
             wallpaper: args.data,
           ),
