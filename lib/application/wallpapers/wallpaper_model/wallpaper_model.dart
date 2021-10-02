@@ -1,17 +1,17 @@
 class Wallpapers {
-  final List _wallpapers = [];
+  List wallpapersList = [];
 
   Wallpapers.productsFromJson(jsonString) {
     jsonString
         .map(
-          (wallpaper) => _wallpapers.add(
+          (wallpaper) => wallpapersList.add(
             Wallpaper.fromRawJson(wallpaper),
           ),
         )
         .toList();
   }
 
-  List get wallpapers => _wallpapers;
+  List get wallpapers => wallpapersList;
 }
 
 class Wallpaper {
