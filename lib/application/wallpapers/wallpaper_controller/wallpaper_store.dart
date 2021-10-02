@@ -64,10 +64,13 @@ abstract class _WallpapersStore with Store {
 
   @action
   void sellectCategorie(int index) {
+    List<Categorie> categorieList2 = categorieList;
     for (int i = 0; i < categorieList.length; i++) {
-      categorieList[i].isSellected = false;
+      categorieList2[i] = Categorie(
+          categorieName: categorieList[i].categorieName, isSellected: false);
     }
-    categorieList[index].isSellected = true;
+    categorieList2[index].isSellected = true;
+    categorieList = categorieList2;
   }
 
   @action
@@ -85,3 +88,11 @@ abstract class _WallpapersStore with Store {
     }
   }
 }
+// @action
+//   void sellectCategorie(int index) {
+//     List<Categorie> categorieList2;
+//     for (int i = 0; i < categorieList.length; i++) {
+//       categorieList[i].isSellected = false;
+//     }
+//     categorieList[index].isSellected = true;
+//   }

@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage> {
                   itemCount: store.categorieList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
+                      splashColor: Colors.white,
                       onTap: () {
                         store.sellectCategorie(index);
                         store.searshWallpaper(
@@ -83,7 +84,6 @@ class _HomePageState extends State<HomePage> {
                         _searchController.text = '';
                       },
                       child: Observer(builder: (context) {
-                        print('categorie Observer builder');
                         return CategorieWidget(
                             categorie: store.categorieList[index]);
                       }),
