@@ -1,0 +1,19 @@
+{
+    "searsh":"إبحث عن خلفيات",
+    "discover":"إكتشف صوراً جديدة",
+    "categories":{
+        "all":"الكل",
+        "citys":"مدن",
+        "wild_life":"حياة برية",
+        "motivation":"تحفيز",
+        "nature":"طبيعة",
+        "cars":"سيارات",
+        "programming":"برمجة",
+        "bikes":"دراجات",
+        "cats":"قطط",
+        "love":"حب"
+    },
+    "description":"الوصف",
+    "photographer":"المصور",
+    "no_results":"لا يوجد نتيجة بحث"
+ }

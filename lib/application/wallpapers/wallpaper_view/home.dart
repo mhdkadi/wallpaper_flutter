@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -77,8 +78,8 @@ class _HomePageState extends State<HomePage> {
                           await store.searshWallpaper(searshQuery: value);
                         },
                         controller: _searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'Searsh Wallpapers',
+                        decoration: InputDecoration(
+                          hintText: 'searsh'.tr(),
                           border: InputBorder.none,
                         ),
                       ),
@@ -118,9 +119,9 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              const Text(
-                "Discover new photos",
-                style: TextStyle(
+              Text(
+                'discover'.tr(),
+                style: const TextStyle(
                     fontFamily: 'Overpass',
                     fontWeight: FontWeight.bold,
                     fontSize: 20),

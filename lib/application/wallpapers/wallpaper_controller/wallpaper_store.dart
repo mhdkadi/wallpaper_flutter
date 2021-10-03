@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../wallpaper_model/categorie_model.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,16 +25,16 @@ abstract class _WallpapersStore with Store {
 
   @observable
   List<Categorie> categorieList = [
-    Categorie(categorieName: 'All', isSellected: true),
-    Categorie(categorieName: 'Citys', isSellected: false),
-    Categorie(categorieName: 'Wild Life', isSellected: false),
-    Categorie(categorieName: 'Motivation', isSellected: false),
-    Categorie(categorieName: 'Nature', isSellected: false),
-    Categorie(categorieName: 'Cars', isSellected: false),
-    Categorie(categorieName: 'Programming', isSellected: false),
-    Categorie(categorieName: 'Bikes', isSellected: false),
-    Categorie(categorieName: 'cats', isSellected: false),
-    Categorie(categorieName: 'love', isSellected: false),
+    Categorie(categorieName: 'categories.all'.tr(), isSellected: true),
+    Categorie(categorieName: 'categories.citys'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.wild_life'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.motivation'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.nature'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.cars'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.programming'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.bikes'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.cats'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.love'.tr(), isSellected: false),
   ];
 
   @observable
