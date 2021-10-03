@@ -1,7 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_controller/wallpaper_controller.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_controller/wallpaper_store.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_model/wallpaper_api_services.dart';
+import 'application/wallpapers/wallpaper_controller/wallpaper_controller.dart';
+import 'application/wallpapers/wallpaper_controller/wallpaper_store.dart';
+import 'application/wallpapers/wallpaper_model/wallpaper_api_services.dart';
 
 import 'application/wallpapers/wallpaper_view/home.dart';
 import 'application/wallpapers/wallpaper_view/widgets/image.dart';

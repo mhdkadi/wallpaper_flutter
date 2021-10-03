@@ -6,8 +6,8 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../wallpaper_controller/wallpaper_store.dart';
 import '../../../../core/widgets/no_results.dart';
+import '../../wallpaper_controller/wallpaper_store.dart';
 
 Widget wallPaper() {
   return Consumer<WallpapersStore>(builder: (_, store, __) {

@@ -2,8 +2,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_model/wallpaper_api_services.dart';
-import 'package:flutter_modular_mobx/core/consts/thme.dart';
+import 'application/wallpapers/wallpaper_model/wallpaper_api_services.dart';
+import 'core/consts/thme.dart';
 import 'package:provider/provider.dart';
 
 import 'application/wallpapers/wallpaper_controller/wallpaper_controller.dart';

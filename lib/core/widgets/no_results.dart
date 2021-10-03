@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
-
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 class NoResults extends StatelessWidget {
   const NoResults({Key? key}) : super(key: key);
