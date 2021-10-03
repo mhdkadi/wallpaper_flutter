@@ -102,4 +102,12 @@ abstract class _WallpapersStore with Store {
       print('DioError');
     }
   }
+
+  @action
+  Future downloadPhote({
+    required String imageId,
+    required String url,
+  }) async {
+    await _wallpaperController.downloadPhoto(imageId: imageId, url: url);
+  }
 }

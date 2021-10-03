@@ -29,4 +29,19 @@ class WallpaperController {
         });
     return Wallpapers.productsFromJson(response);
   }
+
+  Future<bool> downloadPhoto({
+    required String imageId,
+    required String url,
+  }) async {
+    final bool response = await apiServices.downloadHttpClient(
+      url: 'photos/$imageId/download',
+      fileName: '$imageId.jpg',
+      savePath: "storage/emulated/0/DCIM/Flutter Wallpaper/",
+      queryParameters: {
+        'client_id': _apiKey,
+      },
+    );
+    return response;
+  }
 }

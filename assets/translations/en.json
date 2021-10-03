@@ -17,5 +17,6 @@
     "photographer":"Photographer",
     "no_internet":"No Internet Connection",
     "try_again":"Try Again",
-    "no_results":"No Results Found"
+    "no_results":"No Results Found",
+    "photo_downloaded":"Photo Was Downloaded"
  }

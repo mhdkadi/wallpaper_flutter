@@ -15,5 +15,6 @@
     },
     "description":"الوصف",
     "photographer":"المصور",
-    "no_results":"لا يوجد نتيجة بحث"
+    "no_results":"لا يوجد نتيجة بحث",
+    "photo_downloaded":"تم تحميل الصورة"
  }

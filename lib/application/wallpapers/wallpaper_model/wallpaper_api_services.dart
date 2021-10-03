@@ -22,4 +22,45 @@ class ApiServices {
       rethrow;
     }
   }
+
+  Future<bool> downloadHttpClient({
+    required String url,
+    required String fileName,
+    required String savePath,
+    required Map<String, dynamic> queryParameters,
+  }) async {
+    try {
+      print('$url  ${savePath + fileName} ');
+      await dioUnsplash.download(
+        url,
+        savePath + fileName,
+        queryParameters: queryParameters,
+      );
+      print('done');
+      return true;
+    } on DioError catch (error) {
+      print(error);
+      return false;
+    }
+  }
+  //   Future<bool> downloadHttpClient({
+  //   required String url,
+  //   required String fileName,
+  //   required String savePath,
+  //   required Map<String, dynamic> queryParameters,
+  // }) async {
+  //   try {
+  //     print('$url  ${savePath + fileName} ');
+  //     await dioUnsplash.download(
+  //       url,
+  //       savePath + fileName,
+  //       queryParameters: queryParameters,
+  //     );
+  //     print('done');
+  //     return true;
+  //   } on DioError catch (error) {
+  //     print(error);
+  //     return false;
+  //   }
+  // }
 }
