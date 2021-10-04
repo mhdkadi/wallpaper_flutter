@@ -9,9 +9,9 @@ import 'application/wallpapers/wallpaper_view/widgets/image.dart';
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.lazySingleton((i) => ApiServices()),
-        Bind.lazySingleton((i) => WallpaperController(apiServices: i())),
-        Bind.singleton((i) => WallpapersStore(i()))
+        Bind.factory((i) => ApiServices()),
+        Bind.factory((i) => WallpaperController(apiServices: i())),
+        Bind.lazySingleton((i) => WallpapersStore(i()))
       ];
 
   @override

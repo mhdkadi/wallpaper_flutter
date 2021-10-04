@@ -18,5 +18,6 @@
     "no_internet":"No Internet Connection",
     "try_again":"Try Again",
     "no_results":"No Results Found",
-    "photo_downloaded":"Photo Was Downloaded"
+    "photo_downloaded":"Photo Was Downloaded",
+    "photo_download_error":"Photo Was not Downloaded"
  }

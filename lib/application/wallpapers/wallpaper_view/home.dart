@@ -22,7 +22,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   WallpapersStore? _wallpapersStore;
-  //final _store = Modular.get<WallpapersStore>();
+  final _store = Modular.get<WallpapersStore>();
   final RefreshController _refreshController =
       RefreshController(initialRefresh: false);
   int pageIndex = 2;
@@ -34,11 +34,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void onRefresh({required WallpapersStore store}) async {
-    await store
+    await _store
         .getWallpaper(page: 0)
         .onError((_, __) => _refreshController.refreshCompleted());
     _searchController.text = '';
-    store.sellectCategorie(0);
+    _store.sellectCategorie(0);
     _refreshController.refreshCompleted();
   }
 
