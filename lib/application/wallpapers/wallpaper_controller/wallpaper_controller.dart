@@ -3,9 +3,11 @@ import '../wallpaper_model/wallpaper_model.dart';
 
 class WallpaperController {
   final String _apiKey = 'WRhWAYcJZOy-xruGBn__fvVjaPEV171Tikrcgmsn3lM';
-  final ApiServices _apiServices = ApiServices();
+  final ApiServices apiServices;
+
+  WallpaperController({required this.apiServices});
   Future<Wallpapers> getPhotos({required int page}) async {
-    final List<dynamic> response = await _apiServices.getHttpClient(
+    final List<dynamic> response = await apiServices.getHttpClient(
         url: 'photos/',
         queryParameters: {
           'client_id': _apiKey,
@@ -17,7 +19,7 @@ class WallpaperController {
 
   Future<Wallpapers> searshPhotos(
       {required int page, required String searshQuery}) async {
-    final List<dynamic> response = await _apiServices.getHttpClient(
+    final List<dynamic> response = await apiServices.getHttpClient(
         url: 'search/photos/',
         queryParameters: {
           'client_id': _apiKey,
@@ -26,5 +28,20 @@ class WallpaperController {
           'query': searshQuery
         });
     return Wallpapers.productsFromJson(response);
+  }
+
+  Future<bool> downloadPhoto({
+    required String imageId,
+    required String url,
+  }) async {
+    final bool response = await apiServices.downloadHttpClient(
+      url: 'photos/$imageId/download',
+      fileName: '$imageId.jpg',
+      savePath: "storage/emulated/0/DCIM/Flutter Wallpaper/",
+      queryParameters: {
+        'client_id': _apiKey,
+      },
+    );
+    return response;
   }
 }

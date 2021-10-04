@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../core/widgets/app_bar.dart';
 import '../../../core/widgets/loading.dart';
@@ -19,27 +22,51 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   WallpapersStore? _wallpapersStore;
+  //final _store = Modular.get<WallpapersStore>();
+  final RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+  int pageIndex = 2;
   @override
   void initState() {
     _wallpapersStore = Provider.of<WallpapersStore>(context, listen: false);
-    _wallpapersStore!.getWallpaper();
+    _wallpapersStore!.getWallpaper(page: 0);
     super.initState();
+  }
+
+  void onRefresh({required WallpapersStore store}) async {
+    await store
+        .getWallpaper(page: 0)
+        .onError((_, __) => _refreshController.refreshCompleted());
+    _searchController.text = '';
+    store.sellectCategorie(0);
+    _refreshController.refreshCompleted();
+  }
+
+  void onLoading({required WallpapersStore store}) async {
+    await store
+        .loadMoreWallpaper(page: pageIndex)
+        .then((_) => pageIndex++)
+        .onError((_, __) {
+      _refreshController.loadComplete();
+      return 0;
+    });
+    _refreshController.loadComplete();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: appBar,
+      appBar: appbar(context),
       body: SingleChildScrollView(
-        child: Consumer<WallpapersStore>(builder: (context, store, child) {
+        physics: const NeverScrollableScrollPhysics(),
+        child: Consumer<WallpapersStore>(builder: (_, store, __) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey[50],
+                  color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(30),
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -48,17 +75,21 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: TextField(
+                        onSubmitted: (value) async {
+                          store.sellectCategorie(0);
+                          await store.searshWallpaper(searshQuery: value);
+                        },
                         controller: _searchController,
-                        decoration: const InputDecoration(
-                          hintText: 'searchText',
+                        decoration: InputDecoration(
+                          hintText: 'searsh'.tr(),
                           border: InputBorder.none,
                         ),
                       ),
                     ),
                     InkWell(
-                      onTap: () {
+                      onTap: () async {
                         store.sellectCategorie(0);
-                        store.searshWallpaper(
+                        await store.searshWallpaper(
                             searshQuery: _searchController.text);
                       },
                       child: const Icon(Icons.search),
@@ -75,10 +106,9 @@ class _HomePageState extends State<HomePage> {
                   itemCount: store.categorieList.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      splashColor: Colors.white,
-                      onTap: () {
+                      onTap: () async {
                         store.sellectCategorie(index);
-                        store.searshWallpaper(
+                        await store.searshWallpaper(
                             searshQuery:
                                 store.categorieList[index].categorieName);
                         _searchController.text = '';
@@ -91,10 +121,9 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               ),
-              const Text(
-                "Discover new photos",
-                style: TextStyle(
-                    color: Colors.black87,
+              Text(
+                'discover'.tr(),
+                style: const TextStyle(
                     fontFamily: 'Overpass',
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
@@ -104,16 +133,27 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(
                 height: 590,
-                child: Observer(builder: (_) {
-                  switch (_wallpapersStore!.state) {
-                    case StoreState.initial:
-                      return const NoInternetConnection();
-                    case StoreState.loading:
-                      return const Loading();
-                    case StoreState.loaded:
-                      return wallPaper(store.wallpapers);
-                  }
-                }),
+                child: SmartRefresher(
+                  controller: _refreshController,
+                  onRefresh: () {
+                    onRefresh(store: store);
+                  },
+                  onLoading: () {
+                    onLoading(store: store);
+                  },
+                  enablePullDown: true,
+                  enablePullUp: true,
+                  child: Observer(builder: (_) {
+                    switch (_wallpapersStore!.state) {
+                      case StoreState.initial:
+                        return const NoInternetConnection();
+                      case StoreState.loading:
+                        return const Loading();
+                      case StoreState.loaded:
+                        return wallPaper();
+                    }
+                  }),
+                ),
               ),
             ],
           );

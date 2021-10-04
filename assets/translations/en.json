@@ -1,0 +1,22 @@
+{
+    "searsh":"Searsh Wallpapers",
+    "discover":"Discover new photos",
+    "categories":{
+        "all":"All",
+        "citys":"Citys",
+        "wild_life":"Wild Life",
+        "motivation":"Motivation",
+        "nature":"Nature",
+        "cars":"Cars",
+        "programming":"Programming",
+        "bikes":"Bikes",
+        "cats":"Cats",
+        "love":"Love"
+    },
+    "description":"Description",
+    "photographer":"Photographer",
+    "no_internet":"No Internet Connection",
+    "try_again":"Try Again",
+    "no_results":"No Results Found",
+    "photo_downloaded":"Photo Was Downloaded"
+ }

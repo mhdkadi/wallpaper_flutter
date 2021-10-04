@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -9,12 +10,13 @@ class NoInternetConnection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Text('No Internet Connection'),
-        Consumer<WallpapersStore>(builder: (context, store, child) {
+        Text('no_internet'.tr()),
+        Consumer<WallpapersStore>(builder: (_, store, __) {
           return ElevatedButton(
-            onPressed: () => store.getWallpaper(),
-            child: const Text('Try again'),
+            onPressed: () => store.getWallpaper(page: 0),
+            child: Text('try_again'.tr()),
           );
         }),
       ],

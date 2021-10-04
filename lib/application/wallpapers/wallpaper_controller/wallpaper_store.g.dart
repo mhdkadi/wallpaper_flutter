@@ -67,8 +67,17 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
       AsyncAction('_WallpapersStore.getWallpaper');
 
   @override
-  Future<void> getWallpaper() {
-    return _$getWallpaperAsyncAction.run(() => super.getWallpaper());
+  Future<void> getWallpaper({required int page}) {
+    return _$getWallpaperAsyncAction.run(() => super.getWallpaper(page: page));
+  }
+
+  final _$loadMoreWallpaperAsyncAction =
+      AsyncAction('_WallpapersStore.loadMoreWallpaper');
+
+  @override
+  Future<void> loadMoreWallpaper({required int page}) {
+    return _$loadMoreWallpaperAsyncAction
+        .run(() => super.loadMoreWallpaper(page: page));
   }
 
   final _$searshWallpaperAsyncAction =

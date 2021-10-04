@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print
 
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../wallpaper_model/categorie_model.dart';
 import 'package:mobx/mobx.dart';
 
@@ -24,16 +25,16 @@ abstract class _WallpapersStore with Store {
 
   @observable
   List<Categorie> categorieList = [
-    Categorie(categorieName: 'All', isSellected: true),
-    Categorie(categorieName: 'Citys', isSellected: false),
-    Categorie(categorieName: 'Wild Life', isSellected: false),
-    Categorie(categorieName: 'Motivation', isSellected: false),
-    Categorie(categorieName: 'Nature', isSellected: false),
-    Categorie(categorieName: 'Cars', isSellected: false),
-    Categorie(categorieName: 'Programming', isSellected: false),
-    Categorie(categorieName: 'Bikes', isSellected: false),
-    Categorie(categorieName: 'cats', isSellected: false),
-    Categorie(categorieName: 'love', isSellected: false),
+    Categorie(categorieName: 'categories.all'.tr(), isSellected: true),
+    Categorie(categorieName: 'categories.citys'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.wild_life'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.motivation'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.nature'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.cars'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.programming'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.bikes'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.cats'.tr(), isSellected: false),
+    Categorie(categorieName: 'categories.love'.tr(), isSellected: false),
   ];
 
   @observable
@@ -52,10 +53,10 @@ abstract class _WallpapersStore with Store {
   }
 
   @action
-  Future<void> getWallpaper() async {
+  Future<void> getWallpaper({required int page}) async {
     try {
       _wallpapersFuture =
-          ObservableFuture(_wallpaperController.getPhotos(page: 1));
+          ObservableFuture(_wallpaperController.getPhotos(page: page));
       wallpapers = await _wallpapersFuture;
     } on DioError {
       print('DioError');
@@ -74,6 +75,20 @@ abstract class _WallpapersStore with Store {
   }
 
   @action
+  Future<void> loadMoreWallpaper({required int page}) async {
+    try {
+      Wallpapers newWallpapers = wallpapers!;
+      Wallpapers? morewallpapers =
+          await _wallpaperController.getPhotos(page: page);
+      newWallpapers.wallpapersList =
+          wallpapers!.wallpapersList + morewallpapers.wallpapersList;
+      wallpapers = newWallpapers;
+    } on DioError {
+      print('DioError');
+    }
+  }
+
+  @action
   Future<void> searshWallpaper({required String searshQuery}) async {
     try {
       if (searshQuery.isNotEmpty && searshQuery != 'All') {
@@ -81,18 +96,18 @@ abstract class _WallpapersStore with Store {
             page: 1, searshQuery: searshQuery));
         wallpapers = await _wallpapersFuture;
       } else {
-        getWallpaper();
+        getWallpaper(page: 0);
       }
     } on DioError {
       print('DioError');
     }
   }
+
+  @action
+  Future downloadPhote({
+    required String imageId,
+    required String url,
+  }) async {
+    await _wallpaperController.downloadPhoto(imageId: imageId, url: url);
+  }
 }
-// @action
-//   void sellectCategorie(int index) {
-//     List<Categorie> categorieList2;
-//     for (int i = 0; i < categorieList.length; i++) {
-//       categorieList[i].isSellected = false;
-//     }
-//     categorieList[index].isSellected = true;
-//   }
