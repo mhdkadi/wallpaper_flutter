@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import '../../../../core/widgets/no_results.dart';
 import '../../../../core/widgets/app_bar.dart';
 import '../../../../core/widgets/loading.dart';
 import '../../../../core/widgets/no_internet.dart';
@@ -50,6 +51,18 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
     _refreshController.loadComplete();
   }
 
+  void searshWallpaper(String searshQuery) async {
+    store.sellectCategorie(0);
+    await store.searshWallpaper(searshQuery: searshQuery);
+  }
+
+  void sellectCategorie(int index) async {
+    store.sellectCategorie(index);
+    await store.searshWallpaper(
+        searshQuery: store.categorieList[index].categorieName);
+    _searchController.text = '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,10 +84,7 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
                 children: [
                   Expanded(
                     child: TextField(
-                      onSubmitted: (value) async {
-                        store.sellectCategorie(0);
-                        await store.searshWallpaper(searshQuery: value);
-                      },
+                      onSubmitted: searshWallpaper,
                       controller: _searchController,
                       decoration: InputDecoration(
                         hintText: 'searsh'.tr(),
@@ -83,11 +93,7 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
                     ),
                   ),
                   InkWell(
-                    onTap: () async {
-                      store.sellectCategorie(0);
-                      await store.searshWallpaper(
-                          searshQuery: _searchController.text);
-                    },
+                    onTap: () => searshWallpaper(_searchController.text),
                     child: const Icon(Icons.search),
                   ),
                 ],
@@ -102,13 +108,7 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
                 itemCount: store.categorieList.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () async {
-                      store.sellectCategorie(index);
-                      await store.searshWallpaper(
-                          searshQuery:
-                              store.categorieList[index].categorieName);
-                      _searchController.text = '';
-                    },
+                    onTap: () => sellectCategorie(index),
                     child: Observer(builder: (context) {
                       return CategorieWidget(
                           categorie: store.categorieList[index]);
@@ -139,16 +139,21 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
                 },
                 enablePullDown: true,
                 enablePullUp: true,
-                child: Observer(builder: (_) {
-                  switch (store.state) {
-                    case StoreState.initial:
-                      return const NoInternetConnection();
-                    case StoreState.loading:
-                      return const Loading();
-                    case StoreState.loaded:
-                      return wallPaper(store);
-                  }
-                }),
+                child: Observer(
+                  builder: (_) {
+                    switch (store.storState!) {
+                      case StoreState.initial:
+                        return const NoInternetConnection();
+                      case StoreState.loading:
+                        return const Loading();
+                      case StoreState.loaded:
+                        return store.wallpapers!.fold(
+                          (failure) => const NoResults(),
+                          (wallpapers) => wallPaper(wallpapers, context),
+                        );
+                    }
+                  },
+                ),
               ),
             ),
           ],

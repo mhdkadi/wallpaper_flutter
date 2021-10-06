@@ -1,10 +1,12 @@
 // ignore_for_file: avoid_print
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../wallpaper_model/categorie_model.dart';
+import 'package:flutter_modular_mobx/core/api_services/api_services.dart';
 import 'package:mobx/mobx.dart';
 
+import '../wallpaper_model/categorie_model.dart';
 import '../wallpaper_model/wallpaper_model.dart';
 import 'wallpaper_controller.dart';
 
@@ -20,8 +22,12 @@ enum StoreState { initial, loading, loaded }
 abstract class _WallpapersStore with Store {
   _WallpapersStore(this._wallpaperController);
   final WallpaperController _wallpaperController;
+
   @observable
-  Wallpapers? wallpapers;
+  Either<Failure, Wallpapers>? wallpapers;
+
+  @observable
+  StoreState? _state;
 
   @observable
   List<Categorie> categorieList = [
@@ -37,32 +43,6 @@ abstract class _WallpapersStore with Store {
     Categorie(categorieName: 'categories.love'.tr(), isSellected: false),
   ];
 
-  @observable
-  ObservableFuture<Wallpapers>? _wallpapersFuture;
-
-  @computed
-  StoreState get state {
-    if (_wallpapersFuture == null ||
-        _wallpapersFuture!.status == FutureStatus.rejected) {
-      return StoreState.initial;
-    } else if (_wallpapersFuture!.status == FutureStatus.pending) {
-      return StoreState.loading;
-    } else {
-      return StoreState.loaded;
-    }
-  }
-
-  @action
-  Future<void> getWallpaper({required int page}) async {
-    try {
-      _wallpapersFuture =
-          ObservableFuture(_wallpaperController.getPhotos(page: page));
-      wallpapers = await _wallpapersFuture;
-    } on DioError {
-      print('DioError');
-    }
-  }
-
   @action
   void sellectCategorie(int index) {
     List<Categorie> categorieList2 = categorieList;
@@ -77,12 +57,20 @@ abstract class _WallpapersStore with Store {
   @action
   Future<void> loadMoreWallpaper({required int page}) async {
     try {
-      Wallpapers newWallpapers = wallpapers!;
-      Wallpapers? morewallpapers =
-          await _wallpaperController.getPhotos(page: page);
-      newWallpapers.wallpapersList =
-          wallpapers!.wallpapersList + morewallpapers.wallpapersList;
-      wallpapers = newWallpapers;
+      Either<Failure, Wallpapers>? tempMore;
+      await Task(() => _wallpaperController.getPhotos(page: page))
+          .attempt()
+          .map((either) => either.leftMap((obj) => obj as Failure))
+          .run()
+          .then((value) {
+        tempMore = value;
+      });
+      Wallpapers? temp = wallpapers!.toOption().toNullable()!;
+      Wallpapers temp1 = wallpapers!.toOption().toNullable()!;
+      Wallpapers temp2 = tempMore!.toOption().toNullable()!;
+
+      temp.wallpapersList = temp1.wallpapersList + temp2.wallpapersList;
+      wallpapers = Right(temp);
     } on DioError {
       print('DioError');
     }
@@ -92,9 +80,16 @@ abstract class _WallpapersStore with Store {
   Future<void> searshWallpaper({required String searshQuery}) async {
     try {
       if (searshQuery.isNotEmpty && searshQuery != 'All') {
-        _wallpapersFuture = ObservableFuture(_wallpaperController.searshPhotos(
-            page: 1, searshQuery: searshQuery));
-        wallpapers = await _wallpapersFuture;
+        _setState(StoreState.loading);
+        await Task(() => _wallpaperController.searshPhotos(
+                  page: 1,
+                  searshQuery: searshQuery,
+                ))
+            .attempt()
+            .map((either) => either.leftMap((obj) => obj as Failure))
+            .run()
+            .then((value) => _setWllpapers(value));
+        _setState(StoreState.loaded);
       } else {
         getWallpaper(page: 0);
       }
@@ -110,43 +105,27 @@ abstract class _WallpapersStore with Store {
   }) async {
     await _wallpaperController.downloadPhoto(imageId: imageId, url: url);
   }
+
+  @action
+  Future<void> getWallpaper({required int page}) async {
+    _setState(StoreState.loading);
+    await Task(() => _wallpaperController.getPhotos(page: page))
+        .attempt()
+        .map((either) => either.leftMap((obj) => obj as Failure))
+        .run()
+        .then((value) => _setWllpapers(value));
+    _setState(StoreState.loaded);
+  }
+
+  @action
+  void _setWllpapers(Either<Failure, Wallpapers> _wallpapers) =>
+      wallpapers = _wallpapers;
+
+  @action
+  void _setState(StoreState state) {
+    _state = state;
+  }
+
+  @computed
+  StoreState? get storState => _state;
 }
-
-// @observable
-//   Either<Failure, Wallpapers>? wallpapersTest;
-//   @observable
-//   NotifierState stateTest = NotifierState.initial;
-
-//   @action
-//   Future<void> getWallpaperTest({required int page}) async {
-//     print(wallpapersTest);
-//     _setState(NotifierState.loading);
-//     await Task(() => _wallpaperController.getPhotos(page: page))
-//         .attempt()
-//         .map((either) => either.leftMap((obj) => obj as Failure))
-//         .run()
-//         .then((value) => _setWllpapers2(value));
-//     _setState(NotifierState.loaded);
-//     print(wallpapersTest);
-//   }
-
-//   @action
-//   void _setWllpapers2(Either<Failure, Wallpapers> wallpapers2) =>
-//       wallpapersTest = wallpapers2;
-//   @action
-//   void _setState(NotifierState state) {
-//     stateTest = state;
-//   }
-
-//   @computed
-//   NotifierState get stateTests {
-//     if (wallpapersTest == null) {
-//       return NotifierState.loading;
-//     } else if (_wallpapersFuture!.status == FutureStatus.pending) {
-//       return NotifierState.loading;
-//     } else {
-//       return NotifierState.loaded;
-//     }
-//   }
-//enum NotifierState { initial, loading, loaded }
-//

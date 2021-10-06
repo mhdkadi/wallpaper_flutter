@@ -1,8 +1,8 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/application/modules/wallpapers/wallpaper_controller/wallpaper_controller.dart';
-import 'package:flutter_modular_mobx/application/modules/wallpapers/wallpaper_controller/wallpaper_store.dart';
-import 'package:flutter_modular_mobx/application/modules/wallpapers/wallpaper_view/home.dart';
-import 'package:flutter_modular_mobx/application/modules/wallpapers/wallpaper_view/widgets/image.dart';
+import 'wallpaper_controller/wallpaper_controller.dart';
+import 'wallpaper_controller/wallpaper_store.dart';
+import 'wallpaper_view/home.dart';
+import 'wallpaper_view/widgets/image.dart';
 
 class WallpaperModule extends Module {
   @override

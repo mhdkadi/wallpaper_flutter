@@ -9,26 +9,41 @@ part of 'wallpaper_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$WallpapersStore on _WallpapersStore, Store {
-  Computed<StoreState>? _$stateComputed;
+  Computed<StoreState?>? _$storStateComputed;
 
   @override
-  StoreState get state =>
-      (_$stateComputed ??= Computed<StoreState>(() => super.state,
-              name: '_WallpapersStore.state'))
+  StoreState? get storState =>
+      (_$storStateComputed ??= Computed<StoreState?>(() => super.storState,
+              name: '_WallpapersStore.storState'))
           .value;
 
   final _$wallpapersAtom = Atom(name: '_WallpapersStore.wallpapers');
 
   @override
-  Wallpapers? get wallpapers {
+  Either<Failure, Wallpapers>? get wallpapers {
     _$wallpapersAtom.reportRead();
     return super.wallpapers;
   }
 
   @override
-  set wallpapers(Wallpapers? value) {
+  set wallpapers(Either<Failure, Wallpapers>? value) {
     _$wallpapersAtom.reportWrite(value, super.wallpapers, () {
       super.wallpapers = value;
+    });
+  }
+
+  final _$_stateAtom = Atom(name: '_WallpapersStore._state');
+
+  @override
+  StoreState? get _state {
+    _$_stateAtom.reportRead();
+    return super._state;
+  }
+
+  @override
+  set _state(StoreState? value) {
+    _$_stateAtom.reportWrite(value, super._state, () {
+      super._state = value;
     });
   }
 
@@ -45,30 +60,6 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
     _$categorieListAtom.reportWrite(value, super.categorieList, () {
       super.categorieList = value;
     });
-  }
-
-  final _$_wallpapersFutureAtom =
-      Atom(name: '_WallpapersStore._wallpapersFuture');
-
-  @override
-  ObservableFuture<Wallpapers>? get _wallpapersFuture {
-    _$_wallpapersFutureAtom.reportRead();
-    return super._wallpapersFuture;
-  }
-
-  @override
-  set _wallpapersFuture(ObservableFuture<Wallpapers>? value) {
-    _$_wallpapersFutureAtom.reportWrite(value, super._wallpapersFuture, () {
-      super._wallpapersFuture = value;
-    });
-  }
-
-  final _$getWallpaperAsyncAction =
-      AsyncAction('_WallpapersStore.getWallpaper');
-
-  @override
-  Future<void> getWallpaper({required int page}) {
-    return _$getWallpaperAsyncAction.run(() => super.getWallpaper(page: page));
   }
 
   final _$loadMoreWallpaperAsyncAction =
@@ -99,6 +90,14 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
         .run(() => super.downloadPhote(imageId: imageId, url: url));
   }
 
+  final _$getWallpaperAsyncAction =
+      AsyncAction('_WallpapersStore.getWallpaper');
+
+  @override
+  Future<void> getWallpaper({required int page}) {
+    return _$getWallpaperAsyncAction.run(() => super.getWallpaper(page: page));
+  }
+
   final _$_WallpapersStoreActionController =
       ActionController(name: '_WallpapersStore');
 
@@ -114,11 +113,33 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
   }
 
   @override
+  void _setWllpapers(Either<Failure, Wallpapers> _wallpapers) {
+    final _$actionInfo = _$_WallpapersStoreActionController.startAction(
+        name: '_WallpapersStore._setWllpapers');
+    try {
+      return super._setWllpapers(_wallpapers);
+    } finally {
+      _$_WallpapersStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void _setState(StoreState state) {
+    final _$actionInfo = _$_WallpapersStoreActionController.startAction(
+        name: '_WallpapersStore._setState');
+    try {
+      return super._setState(state);
+    } finally {
+      _$_WallpapersStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 wallpapers: ${wallpapers},
 categorieList: ${categorieList},
-state: ${state}
+storState: ${storState}
     ''';
   }
 }
