@@ -11,7 +11,9 @@ environment:
 dependencies:
   adaptive_theme: ^2.2.0
   cached_network_image: ^3.1.0
+  connectivity: ^3.0.6
   cupertino_icons: ^1.0.2
+  dartz: ^0.10.0
   dio: ^4.0.0
   easy_localization: ^3.0.0
   flutter:
@@ -23,42 +25,27 @@ dependencies:
   mobx: ^2.0.4
   path_provider: ^2.0.5
   provider: ^6.0.1
-  
-  shared_preferences: any
-
-  #slidy: ^3.2.2+1
-  adaptive_theme: ^2.2.0
-  validators: ^3.0.0
-  connectivity: ^3.0.6
-
   pull_to_refresh: ^2.0.0
-
+  shared_preferences: any
+  validators: ^3.0.0
 
 dev_dependencies:
   build_runner: ^2.1.2
+
   flutter_lints: ^1.0.0
   flutter_test:
     sdk: flutter
   mobx_codegen: any
 
-  flutter_lints: ^1.0.0
-
-
-
 flutter:
 
   uses-material-design: true
 
-
   # To add assets to your application, add an assets section, like this:
-  assets:
-    - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
@@ -78,8 +65,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
   assets:
     - assets/images/
     - assets/translations/
-

@@ -111,3 +111,42 @@ abstract class _WallpapersStore with Store {
     await _wallpaperController.downloadPhoto(imageId: imageId, url: url);
   }
 }
+
+// @observable
+//   Either<Failure, Wallpapers>? wallpapersTest;
+//   @observable
+//   NotifierState stateTest = NotifierState.initial;
+
+//   @action
+//   Future<void> getWallpaperTest({required int page}) async {
+//     print(wallpapersTest);
+//     _setState(NotifierState.loading);
+//     await Task(() => _wallpaperController.getPhotos(page: page))
+//         .attempt()
+//         .map((either) => either.leftMap((obj) => obj as Failure))
+//         .run()
+//         .then((value) => _setWllpapers2(value));
+//     _setState(NotifierState.loaded);
+//     print(wallpapersTest);
+//   }
+
+//   @action
+//   void _setWllpapers2(Either<Failure, Wallpapers> wallpapers2) =>
+//       wallpapersTest = wallpapers2;
+//   @action
+//   void _setState(NotifierState state) {
+//     stateTest = state;
+//   }
+
+//   @computed
+//   NotifierState get stateTests {
+//     if (wallpapersTest == null) {
+//       return NotifierState.loading;
+//     } else if (_wallpapersFuture!.status == FutureStatus.pending) {
+//       return NotifierState.loading;
+//     } else {
+//       return NotifierState.loaded;
+//     }
+//   }
+//enum NotifierState { initial, loading, loaded }
+//

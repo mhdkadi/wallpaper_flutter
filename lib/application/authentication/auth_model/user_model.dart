@@ -1,17 +1,16 @@
 import 'dart:async';
 
-class UserInformation {
+class User {
   final String token;
   final DateTime expireDate;
   final String userId;
   final Timer authTimer;
   final String refreshToken;
 
-  UserInformation(
+  User(
       {required this.token,
       required this.expireDate,
       required this.userId,
       required this.authTimer,
-      required this.refreshToken}
-      );
+      required this.refreshToken});
 }

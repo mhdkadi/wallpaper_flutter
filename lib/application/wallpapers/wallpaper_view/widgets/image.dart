@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_controller/wallpaper_store.dart';
+import '../../wallpaper_controller/wallpaper_store.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../wallpaper_model/wallpaper_model.dart';

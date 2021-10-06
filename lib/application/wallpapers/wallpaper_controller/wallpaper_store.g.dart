@@ -89,6 +89,16 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
         .run(() => super.searshWallpaper(searshQuery: searshQuery));
   }
 
+  final _$downloadPhoteAsyncAction =
+      AsyncAction('_WallpapersStore.downloadPhote');
+
+  @override
+  Future<dynamic> downloadPhote(
+      {required String imageId, required String url}) {
+    return _$downloadPhoteAsyncAction
+        .run(() => super.downloadPhote(imageId: imageId, url: url));
+  }
+
   final _$_WallpapersStoreActionController =
       ActionController(name: '_WallpapersStore');
 
