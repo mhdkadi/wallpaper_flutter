@@ -100,7 +100,8 @@ class _AuthenticationViewState extends State<AuthenticationView> {
                           onPressed: auth.isFormValid
                               ? () {
                                   auth.loginOrRegister();
-                                  Modular.to.pushNamed('/homeScreen');
+                                  Modular.to
+                                      .pushReplacementNamed('/homeScreen');
                                 }
                               : null,
                           style: TextButton.styleFrom(
