@@ -8,7 +8,7 @@ AppBar appbar(BuildContext context, AuthStore authStore) {
       IconButton(
           onPressed: () {
             authStore.logOut();
-            Modular.to.pushNamed('/authenticationView');
+            Modular.to.pushReplacementNamed('/authenticationView');
           },
           icon: const Icon(
             Icons.logout,
