@@ -1,4 +1,5 @@
-import '../../../core/api_services/api_services.dart';
+import '../../../../core/api_services/api_services.dart';
+
 import '../wallpaper_model/wallpaper_model.dart';
 
 class WallpaperController {

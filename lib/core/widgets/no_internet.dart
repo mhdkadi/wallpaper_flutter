@@ -1,8 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import '../../application/modules/wallpapers/wallpaper_controller/wallpaper_store.dart';
 import 'package:provider/provider.dart';
-
-import '../../application/wallpapers/wallpaper_controller/wallpaper_store.dart';
 
 class NoInternetConnection extends StatelessWidget {
   const NoInternetConnection({Key? key}) : super(key: key);
