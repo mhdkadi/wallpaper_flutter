@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular_mobx/application/authentication/auth_controller/auth_store.dart';
+import '../../auth_controller/auth_store.dart';
 import 'package:provider/provider.dart';
 
 class LoginTextFieldSection extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/core/wrapper/wrapper.dart';
+import 'core/wrapper/wrapper.dart';
 import 'application/authentication/auth_controller/auth_controller.dart';
 import 'application/authentication/auth_controller/auth_store.dart';
 import 'application/wallpapers/wallpaper_view/home.dart';

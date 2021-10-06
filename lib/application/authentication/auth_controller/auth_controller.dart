@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:flutter_modular_mobx/application/authentication/auth_model/user_model.dart';
+import '../auth_model/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_modular_mobx/core/api_services/api_services.dart';
+import '../../../core/api_services/api_services.dart';
 
 class AuthController {
   String? _token = '';

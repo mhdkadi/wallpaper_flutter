@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_modular_mobx/application/authentication/auth_controller/auth_store.dart';
-import 'package:flutter_modular_mobx/core/widgets/loading.dart';
+import '../auth_controller/auth_store.dart';
+import '../../../core/widgets/loading.dart';
 import 'widgets/login_text_field_section.dart';
 import 'package:provider/provider.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_modular_mobx/application/authentication/auth_controller/auth_store.dart';
-import 'package:flutter_modular_mobx/application/authentication/auth_view/authentication_view.dart';
-import 'package:flutter_modular_mobx/application/wallpapers/wallpaper_view/home.dart';
-import 'package:flutter_modular_mobx/core/widgets/loading.dart';
-import 'package:flutter_modular_mobx/core/widgets/no_internet.dart';
+import '../../application/authentication/auth_controller/auth_store.dart';
+import '../../application/authentication/auth_view/authentication_view.dart';
+import '../../application/wallpapers/wallpaper_view/home.dart';
+import '../widgets/loading.dart';
+import '../widgets/no_internet.dart';
 import 'package:provider/provider.dart';
 
 class Wrapper extends StatefulWidget {
