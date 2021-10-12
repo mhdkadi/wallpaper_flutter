@@ -48,29 +48,6 @@ Widget wallPaper(Wallpapers wallpapers, BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  'description'.tr(),
-                  style: const TextStyle(
-                      fontFamily: 'Overpass',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: Text(
-                    "${item.description}",
-                    style: TextStyle(
-                      color: Theme.of(context).shadowColor,
-                      fontFamily: 'Overpass',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                Text(
                   'photographer'.tr(),
                   style: const TextStyle(
                     fontFamily: 'Overpass',

@@ -27,13 +27,13 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore> {
   int pageIndex = 2;
   @override
   void initState() {
-    store.getWallpaper(page: 0);
+    store.getWallpaper(page: 1);
     super.initState();
   }
 
   void onRefresh() async {
     await store
-        .getWallpaper(page: 0)
+        .getWallpaper(page: 1)
         .onError((_, __) => _refreshController.refreshCompleted());
     _searchController.text = '';
     store.sellectCategorie(0);

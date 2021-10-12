@@ -1,0 +1,89 @@
+GET https://api.unsplash.com/topics/?client_id=WRhWAYcJZOy-xruGBn__fvVjaPEV171Tikrcgmsn3lM HTTP/1.1
+
+###
+PUT  https://wallpaper-1739d-default-rtdb.firebaseio.com/photos.json HTTP/1.1
+content-type: application/json
+
+{
+    "popular": [
+        {
+            "wallpaperId": "111",
+            "createdAt":"111",
+            "width": "111",
+            "height":"111",
+            "likes": "111",
+            "description":"111",
+            "photographer":"111",
+            "urls": "111",
+            "downloadLink": "111"
+        },
+        {
+            "wallpaperId": "222",
+            "createdAt":"222",
+            "width": "222",
+            "height":"222",
+            "likes": "222",
+            "description":"222",
+            "photographer":"222",
+            "urls": "222",
+            "downloadLink": "222"
+        }
+    ],
+    "recently_added": [
+        {
+            "wallpaperId": "111",
+            "createdAt":"111",
+            "width": "111",
+            "height":"111",
+            "likes": "111",
+            "description":"111",
+            "photographer":"111",
+            "urls": "111",
+            "downloadLink": "111"
+        },
+        {
+            "wallpaperId": "222",
+            "createdAt":"222",
+            "width": "222",
+            "height":"222",
+            "likes": "222",
+            "description":"222",
+            "photographer":"222",
+            "urls": "222",
+            "downloadLink": "222"
+        }
+    ],
+    "most_downloaded": [
+        {
+            "wallpaperId": "111",
+            "createdAt":"111",
+            "width": "111",
+            "height":"111",
+            "likes": "111",
+            "description":"111",
+            "photographer":"111",
+            "urls": "111",
+            "downloadLink": "111"
+        },
+        {
+            "wallpaperId": "222",
+            "createdAt":"222",
+            "width": "222",
+            "height":"222",
+            "likes": "222",
+            "description":"222",
+            "photographer":"222",
+            "urls": "222",
+            "downloadLink": "222"
+        }
+    ]
+  
+    
+}
+
+
+
+
+###
+
+GET https://pixabay.com/api/?key=15537053-aff0def72215bfb51cfbb3edb&per_page=4 HTTP/1.1

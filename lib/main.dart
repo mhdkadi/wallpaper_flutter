@@ -8,11 +8,16 @@ import 'application/app_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   await EasyLocalization.ensureInitialized();
   runApp(EasyLocalization(
-    supportedLocales: const [Locale('en'), Locale('ar')],
+    supportedLocales: const [
+      Locale('en'),
+      Locale('ar'),
+    ],
     path: 'assets/translations',
     fallbackLocale: const Locale('en'),
     child: ModularApp(

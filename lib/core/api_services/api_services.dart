@@ -23,7 +23,7 @@ class ApiServices {
       if (response.data is List) {
         return response.data;
       }
-      return response.data['results'];
+      return response.data['hits'];
     } catch (error) {
       print(error);
       rethrow;
