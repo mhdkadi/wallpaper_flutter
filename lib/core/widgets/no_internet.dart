@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import '../../application/modules/wallpapers/wallpaper_controller/wallpaper_store.dart';
+import '../../application/modules/wallpapers_pixabay/wallpaper_controller/wallpaper_store.dart';
 import 'package:provider/provider.dart';
 
 class NoInternetConnection extends StatelessWidget {
