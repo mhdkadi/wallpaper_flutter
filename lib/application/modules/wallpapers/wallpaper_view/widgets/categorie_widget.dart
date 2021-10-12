@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../wallpaper_model/categorie_model.dart';
 
 class CategorieWidget extends StatelessWidget {

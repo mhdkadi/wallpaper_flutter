@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'modules/wallpapers/wallpaper_module.dart';
+
 import '../core/api_services/api_services.dart';
+import 'modules/wallpapers/wallpaper_module.dart';
 
 class AppModule extends Module {
   @override
