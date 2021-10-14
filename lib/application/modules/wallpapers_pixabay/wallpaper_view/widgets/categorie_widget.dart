@@ -20,11 +20,8 @@ class CategorieWidget extends StatelessWidget {
           ),
           backgroundColor: categorie.isSellected
               ? Theme.of(context).highlightColor
-              : Theme.of(context).cardColor,
+              : Colors.white,
         ),
-        const SizedBox(
-          width: 5,
-        )
       ],
     );
   }

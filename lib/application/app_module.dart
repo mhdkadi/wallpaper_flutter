@@ -7,7 +7,7 @@ import 'modules/wallpapers_pixabay/wallpaper_module.dart';
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
-        Bind.factory((i) => ApiServices(dio: Dio())),
+        Bind.singleton((i) => ApiServices(dio: Dio())),
       ];
 
   @override

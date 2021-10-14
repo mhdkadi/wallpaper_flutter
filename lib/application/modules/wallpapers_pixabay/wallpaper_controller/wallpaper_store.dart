@@ -30,7 +30,7 @@ abstract class _WallpapersStore with Store {
   StoreState? _state;
 
   @observable
-  List<Categorie> categorieList = [
+  ObservableList categorieList = ObservableList<Categorie>.of([
     Categorie(categorieName: 'categories.all'.tr(), isSellected: true),
     Categorie(categorieName: 'categories.citys'.tr(), isSellected: false),
     Categorie(categorieName: 'categories.wild_life'.tr(), isSellected: false),
@@ -41,17 +41,15 @@ abstract class _WallpapersStore with Store {
     Categorie(categorieName: 'categories.bikes'.tr(), isSellected: false),
     Categorie(categorieName: 'categories.cats'.tr(), isSellected: false),
     Categorie(categorieName: 'categories.love'.tr(), isSellected: false),
-  ];
+  ]);
 
   @action
   void sellectCategorie(int index) {
-    List<Categorie> categorieList2 = categorieList;
     for (int i = 0; i < categorieList.length; i++) {
-      categorieList2[i] = Categorie(
+      categorieList[i] = Categorie(
           categorieName: categorieList[i].categorieName, isSellected: false);
     }
-    categorieList2[index].isSellected = true;
-    categorieList = categorieList2;
+    categorieList[index].isSellected = true;
   }
 
   @action

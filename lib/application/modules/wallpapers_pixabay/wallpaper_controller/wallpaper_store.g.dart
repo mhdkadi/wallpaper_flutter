@@ -50,13 +50,13 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
   final _$categorieListAtom = Atom(name: '_WallpapersStore.categorieList');
 
   @override
-  List<Categorie> get categorieList {
+  ObservableList<dynamic> get categorieList {
     _$categorieListAtom.reportRead();
     return super.categorieList;
   }
 
   @override
-  set categorieList(List<Categorie> value) {
+  set categorieList(ObservableList<dynamic> value) {
     _$categorieListAtom.reportWrite(value, super.categorieList, () {
       super.categorieList = value;
     });
