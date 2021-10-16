@@ -1,10 +1,7 @@
 // ignore_for_file: avoid_print
 
-import 'package:dartz/dartz.dart';
-import 'package:dio/dio.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_modular_mobx/core/api_services/api_services.dart';
 import 'package:mobx/mobx.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../wallpaper_model/categorie_model.dart';
 import '../wallpaper_model/wallpaper_model.dart';
@@ -20,111 +17,132 @@ class WallpapersStore extends _WallpapersStore with _$WallpapersStore {
 enum StoreState { initial, loading, loaded }
 
 abstract class _WallpapersStore with Store {
+  final RefreshController refreshController =
+      RefreshController(initialRefresh: false);
   _WallpapersStore(this._wallpaperController);
   final WallpaperController _wallpaperController;
+  @observable
+  Wallpapers? wallpapers;
 
   @observable
-  Either<Failure, Wallpapers>? wallpapers;
+  ObservableFuture? _wallpaperFuture;
 
   @observable
-  StoreState? _state;
+  String _color = '';
+  @observable
+  String _searshQuery = '';
+  @observable
+  String _category = '';
+  @observable
+  String _order = 'popular';
+  @observable
+  String _imagetype = 'photo';
+  @observable
+  int _page = 1;
 
   @observable
-  ObservableList categorieList = ObservableList<Categorie>.of([
-    Categorie(categorieName: 'categories.all'.tr(), isSellected: true),
-    Categorie(categorieName: 'categories.citys'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.wild_life'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.motivation'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.nature'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.cars'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.programming'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.bikes'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.cats'.tr(), isSellected: false),
-    Categorie(categorieName: 'categories.love'.tr(), isSellected: false),
+  ObservableList categorieList = ObservableList<TabModle>.of([
+    TabModle(categorieName: 'popular', isSellected: true),
+    TabModle(categorieName: 'latest', isSellected: false),
+    TabModle(categorieName: 'photo', isSellected: false),
+    TabModle(categorieName: 'illustration', isSellected: false),
+    TabModle(categorieName: 'vector', isSellected: false),
+    TabModle(categorieName: 'colors', isSellected: false),
+    TabModle(categorieName: 'category', isSellected: false),
   ]);
 
   @action
-  void sellectCategorie(int index) {
+  void sellectTab(int index) {
     for (int i = 0; i < categorieList.length; i++) {
-      categorieList[i] = Categorie(
-          categorieName: categorieList[i].categorieName, isSellected: false);
+      categorieList[i] = TabModle(
+        categorieName: categorieList[i].categorieName,
+        isSellected: false,
+      );
+    }
+    switch (index) {
+      case 0:
+        _order = 'popular';
+        _imagetype = 'photo';
+        _page = 1;
+
+        break;
+      case 1:
+        _order = 'latest';
+        _imagetype = 'photo';
+        _page = 1;
+
+        break;
+      case 2:
+        _order = 'popular';
+        _imagetype = 'photo';
+        _page = 1;
+        break;
+      case 3:
+        _order = 'popular';
+        _imagetype = 'illustration';
+        _page = 1;
+        break;
+      case 4:
+        _order = 'popular';
+        _imagetype = 'vector';
+        _page = 1;
+        break;
+      case 5:
+        _order = 'popular';
+        _imagetype = 'photo';
+        _searshQuery = '';
+        _page = 1;
+        break;
+      case 6:
+        _order = 'popular';
+        _imagetype = 'photo';
+        _searshQuery = '';
+        _page = 1;
     }
     categorieList[index].isSellected = true;
+    getWallpaper();
+  }
+
+  void onRefresh() async {
+    await getWallpaper()
+        .onError((_, __) => refreshController.refreshCompleted());
+
+    refreshController.refreshCompleted();
+  }
+
+  void onLoading() async {
+    // await store
+    //     .loadMoreWallpaper(page: pageIndex)
+    //     .then((_) => pageIndex++)
+    //     .onError((_, __) {
+    //   _refreshController.loadComplete();
+    //   return 0;
+    // });
+    refreshController.loadComplete();
   }
 
   @action
-  Future<void> loadMoreWallpaper({required int page}) async {
-    try {
-      Either<Failure, Wallpapers>? tempMore;
-      await Task(() => _wallpaperController.getPhotos(page: page))
-          .attempt()
-          .map((either) => either.leftMap((obj) => obj as Failure))
-          .run()
-          .then((value) {
-        tempMore = value;
-      });
-      Wallpapers? temp = wallpapers!.toOption().toNullable()!;
-      Wallpapers temp1 = wallpapers!.toOption().toNullable()!;
-      Wallpapers temp2 = tempMore!.toOption().toNullable()!;
-
-      temp.wallpapersList = temp1.wallpapersList + temp2.wallpapersList;
-      wallpapers = Right(temp);
-    } on DioError {
-      print('DioError');
-    }
+  Future<void> getWallpaper() async {
+    _wallpaperFuture = ObservableFuture(_wallpaperController.getPhotos(
+      searshQuery: _searshQuery,
+      imagetype: _imagetype,
+      order: _order,
+      page: _page,
+    ));
+    wallpapers = await _wallpaperFuture;
   }
 
   @action
-  Future<void> searshWallpaper({required String searshQuery}) async {
-    try {
-      if (searshQuery.isNotEmpty && searshQuery != 'All') {
-        _setState(StoreState.loading);
-        await Task(() => _wallpaperController.searshPhotos(
-                  page: 1,
-                  searshQuery: searshQuery,
-                ))
-            .attempt()
-            .map((either) => either.leftMap((obj) => obj as Failure))
-            .run()
-            .then((value) => _setWllpapers(value));
-        _setState(StoreState.loaded);
-      } else {
-        getWallpaper(page: 0);
-      }
-    } on DioError {
-      print('DioError');
-    }
-  }
-
-  @action
-  Future downloadPhote({
-    required String imageId,
-    required String url,
-  }) async {
-    await _wallpaperController.downloadPhoto(imageId: imageId, url: url);
-  }
-
-  @action
-  Future<void> getWallpaper({required int page}) async {
-    _setState(StoreState.loading);
-    await Task(() => _wallpaperController.getPhotos(page: page))
-        .attempt()
-        .map((either) => either.leftMap((obj) => obj as Failure))
-        .run()
-        .then((value) => _setWllpapers(value));
-
-    _setState(StoreState.loaded);
-  }
-
-  @action
-  void _setWllpapers(Either<Failure, Wallpapers> _wallpapers) =>
-      wallpapers = _wallpapers;
-
-  @action
-  void _setState(StoreState state) {
-    _state = state;
-  }
+  void searchText(String search) => _searshQuery = search;
 
   @computed
-  StoreState? get storState => _state;
+  StoreState get state {
+    if (_wallpaperFuture == null ||
+        _wallpaperFuture!.status == FutureStatus.rejected) {
+      return StoreState.initial;
+    }
+    return _wallpaperFuture!.status == FutureStatus.pending
+        ? StoreState.loading
+        : StoreState.loaded;
+  }
 }

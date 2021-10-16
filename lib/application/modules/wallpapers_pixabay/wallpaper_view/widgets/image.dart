@@ -22,18 +22,18 @@ class Image extends StatelessWidget {
   }
 
   void download(BuildContext context) {
-    _store
-        .downloadPhote(
-      imageId: wallpaper.wallpaperId,
-      url: wallpaper.downloadLink,
-    )
-        .then((value) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(_snackBar(Text('photo_downloaded'.tr())));
-    }).onError((error, stackTrace) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(_snackBar(Text('photo_download_error'.tr())));
-    });
+    // _store
+    //     .downloadPhote(
+    //   imageId: wallpaper.wallpaperId,
+    //   url: wallpaper.downloadLink,
+    // )
+    //     .then((value) {
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(_snackBar(Text('photo_downloaded'.tr())));
+    // }).onError((error, stackTrace) {
+    //   ScaffoldMessenger.of(context)
+    //       .showSnackBar(_snackBar(Text('photo_download_error'.tr())));
+    // });
   }
 
   @override

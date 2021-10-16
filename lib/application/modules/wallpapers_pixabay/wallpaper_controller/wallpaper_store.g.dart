@@ -9,41 +9,132 @@ part of 'wallpaper_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$WallpapersStore on _WallpapersStore, Store {
-  Computed<StoreState?>? _$storStateComputed;
+  Computed<StoreState>? _$stateComputed;
 
   @override
-  StoreState? get storState =>
-      (_$storStateComputed ??= Computed<StoreState?>(() => super.storState,
-              name: '_WallpapersStore.storState'))
+  StoreState get state =>
+      (_$stateComputed ??= Computed<StoreState>(() => super.state,
+              name: '_WallpapersStore.state'))
           .value;
 
   final _$wallpapersAtom = Atom(name: '_WallpapersStore.wallpapers');
 
   @override
-  Either<Failure, Wallpapers>? get wallpapers {
+  Wallpapers? get wallpapers {
     _$wallpapersAtom.reportRead();
     return super.wallpapers;
   }
 
   @override
-  set wallpapers(Either<Failure, Wallpapers>? value) {
+  set wallpapers(Wallpapers? value) {
     _$wallpapersAtom.reportWrite(value, super.wallpapers, () {
       super.wallpapers = value;
     });
   }
 
-  final _$_stateAtom = Atom(name: '_WallpapersStore._state');
+  final _$_wallpaperFutureAtom =
+      Atom(name: '_WallpapersStore._wallpaperFuture');
 
   @override
-  StoreState? get _state {
-    _$_stateAtom.reportRead();
-    return super._state;
+  ObservableFuture<dynamic>? get _wallpaperFuture {
+    _$_wallpaperFutureAtom.reportRead();
+    return super._wallpaperFuture;
   }
 
   @override
-  set _state(StoreState? value) {
-    _$_stateAtom.reportWrite(value, super._state, () {
-      super._state = value;
+  set _wallpaperFuture(ObservableFuture<dynamic>? value) {
+    _$_wallpaperFutureAtom.reportWrite(value, super._wallpaperFuture, () {
+      super._wallpaperFuture = value;
+    });
+  }
+
+  final _$_colorAtom = Atom(name: '_WallpapersStore._color');
+
+  @override
+  String get _color {
+    _$_colorAtom.reportRead();
+    return super._color;
+  }
+
+  @override
+  set _color(String value) {
+    _$_colorAtom.reportWrite(value, super._color, () {
+      super._color = value;
+    });
+  }
+
+  final _$_searshQueryAtom = Atom(name: '_WallpapersStore._searshQuery');
+
+  @override
+  String get _searshQuery {
+    _$_searshQueryAtom.reportRead();
+    return super._searshQuery;
+  }
+
+  @override
+  set _searshQuery(String value) {
+    _$_searshQueryAtom.reportWrite(value, super._searshQuery, () {
+      super._searshQuery = value;
+    });
+  }
+
+  final _$_categoryAtom = Atom(name: '_WallpapersStore._category');
+
+  @override
+  String get _category {
+    _$_categoryAtom.reportRead();
+    return super._category;
+  }
+
+  @override
+  set _category(String value) {
+    _$_categoryAtom.reportWrite(value, super._category, () {
+      super._category = value;
+    });
+  }
+
+  final _$_orderAtom = Atom(name: '_WallpapersStore._order');
+
+  @override
+  String get _order {
+    _$_orderAtom.reportRead();
+    return super._order;
+  }
+
+  @override
+  set _order(String value) {
+    _$_orderAtom.reportWrite(value, super._order, () {
+      super._order = value;
+    });
+  }
+
+  final _$_imagetypeAtom = Atom(name: '_WallpapersStore._imagetype');
+
+  @override
+  String get _imagetype {
+    _$_imagetypeAtom.reportRead();
+    return super._imagetype;
+  }
+
+  @override
+  set _imagetype(String value) {
+    _$_imagetypeAtom.reportWrite(value, super._imagetype, () {
+      super._imagetype = value;
+    });
+  }
+
+  final _$_pageAtom = Atom(name: '_WallpapersStore._page');
+
+  @override
+  int get _page {
+    _$_pageAtom.reportRead();
+    return super._page;
+  }
+
+  @override
+  set _page(int value) {
+    _$_pageAtom.reportWrite(value, super._page, () {
+      super._page = value;
     });
   }
 
@@ -62,73 +153,34 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
     });
   }
 
-  final _$loadMoreWallpaperAsyncAction =
-      AsyncAction('_WallpapersStore.loadMoreWallpaper');
-
-  @override
-  Future<void> loadMoreWallpaper({required int page}) {
-    return _$loadMoreWallpaperAsyncAction
-        .run(() => super.loadMoreWallpaper(page: page));
-  }
-
-  final _$searshWallpaperAsyncAction =
-      AsyncAction('_WallpapersStore.searshWallpaper');
-
-  @override
-  Future<void> searshWallpaper({required String searshQuery}) {
-    return _$searshWallpaperAsyncAction
-        .run(() => super.searshWallpaper(searshQuery: searshQuery));
-  }
-
-  final _$downloadPhoteAsyncAction =
-      AsyncAction('_WallpapersStore.downloadPhote');
-
-  @override
-  Future<dynamic> downloadPhote(
-      {required String imageId, required String url}) {
-    return _$downloadPhoteAsyncAction
-        .run(() => super.downloadPhote(imageId: imageId, url: url));
-  }
-
   final _$getWallpaperAsyncAction =
       AsyncAction('_WallpapersStore.getWallpaper');
 
   @override
-  Future<void> getWallpaper({required int page}) {
-    return _$getWallpaperAsyncAction.run(() => super.getWallpaper(page: page));
+  Future<void> getWallpaper() {
+    return _$getWallpaperAsyncAction.run(() => super.getWallpaper());
   }
 
   final _$_WallpapersStoreActionController =
       ActionController(name: '_WallpapersStore');
 
   @override
-  void sellectCategorie(int index) {
+  void sellectTab(int index) {
     final _$actionInfo = _$_WallpapersStoreActionController.startAction(
-        name: '_WallpapersStore.sellectCategorie');
+        name: '_WallpapersStore.sellectTab');
     try {
-      return super.sellectCategorie(index);
+      return super.sellectTab(index);
     } finally {
       _$_WallpapersStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void _setWllpapers(Either<Failure, Wallpapers> _wallpapers) {
+  void searchText(String search) {
     final _$actionInfo = _$_WallpapersStoreActionController.startAction(
-        name: '_WallpapersStore._setWllpapers');
+        name: '_WallpapersStore.searchText');
     try {
-      return super._setWllpapers(_wallpapers);
-    } finally {
-      _$_WallpapersStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void _setState(StoreState state) {
-    final _$actionInfo = _$_WallpapersStoreActionController.startAction(
-        name: '_WallpapersStore._setState');
-    try {
-      return super._setState(state);
+      return super.searchText(search);
     } finally {
       _$_WallpapersStoreActionController.endAction(_$actionInfo);
     }
@@ -139,7 +191,7 @@ mixin _$WallpapersStore on _WallpapersStore, Store {
     return '''
 wallpapers: ${wallpapers},
 categorieList: ${categorieList},
-storState: ${storState}
+state: ${state}
     ''';
   }
 }

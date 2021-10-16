@@ -1,8 +1,8 @@
-class Categorie {
+class TabModle {
   String categorieName;
   bool isSellected;
 
-  Categorie({
+  TabModle({
     required this.categorieName,
     required this.isSellected,
   });

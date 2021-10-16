@@ -4,7 +4,7 @@ import '../../wallpaper_model/categorie_model.dart';
 
 class CategorieWidget extends StatelessWidget {
   const CategorieWidget({Key? key, required this.categorie}) : super(key: key);
-  final Categorie categorie;
+  final TabModle categorie;
   @override
   Widget build(BuildContext context) {
     return Row(

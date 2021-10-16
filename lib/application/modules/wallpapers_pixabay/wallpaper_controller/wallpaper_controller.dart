@@ -7,39 +7,31 @@ class WallpaperController {
   final ApiServices apiServices;
 
   WallpaperController({required this.apiServices});
-  Future<Wallpapers> getPhotos({required int page}) async {
+  Future<Wallpapers> getPhotos({
+    String color = '',
+    String searshQuery = '',
+    String category = '',
+    String order = 'popular',
+    String imagetype = 'all',
+    int page = 1,
+  }) async {
     try {
       final List<dynamic> response =
           await apiServices.getRequest(url: pixabayBaseUrl, queryParameters: {
         'key': _pixabayApiKey,
-        'q': 'colorful',
-        //'category': 'animals',
-        'order': 'popular',
+        'q': searshQuery,
+        'category': category,
+        'order': order,
         'page': page,
-        'per_page': '10',
-        'image_type': 'photo',
+        'per_page': '30',
+        'image_type': imagetype,
         'orientation': 'vertical',
-        //'colors': 'blue',
+        'colors': color,
       });
       return Wallpapers.productsFromJson(response);
     } catch (error) {
       throw Failure("no_internet");
     }
-  }
-
-  Future<Wallpapers> searshPhotos(
-      {required int page, required String searshQuery}) async {
-    final List<dynamic> response = await apiServices.getRequest(
-      url: pixabayBaseUrl,
-      queryParameters: {
-        'key': _pixabayApiKey,
-        'per_page': '30',
-        'page': page,
-        'orientation': 'vertical',
-        'q': searshQuery
-      },
-    );
-    return Wallpapers.productsFromJson(response);
   }
 
   Future<bool> downloadPhoto({

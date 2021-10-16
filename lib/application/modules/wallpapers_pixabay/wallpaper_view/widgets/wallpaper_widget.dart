@@ -10,7 +10,7 @@ Widget wallPaper(Wallpapers wallpapers, BuildContext context) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 16),
     child: StaggeredGridView.count(
-      physics: const ClampingScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       crossAxisCount: 4,
       crossAxisSpacing: 6.0,

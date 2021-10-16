@@ -14,7 +14,7 @@ class NoInternetConnection extends StatelessWidget {
         Text('no_internet'.tr()),
         Consumer<WallpapersStore>(builder: (_, store, __) {
           return ElevatedButton(
-            onPressed: () => store.getWallpaper(page: 0),
+            onPressed: () => store.getWallpaper(),
             child: Text('try_again'.tr()),
           );
         }),
