@@ -28,11 +28,12 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore>
       vsync: this,
       initialIndex: 0,
     );
+
     store.getWallpaper();
     super.initState();
   }
 
-  Widget test() {
+  Widget body() {
     return SliverToBoxAdapter(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -46,27 +47,29 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore>
                 fontSize: 20),
           ),
           const SizedBox(height: 14),
-          Observer(builder: (context) {
-            return SizedBox(
-              height: store.state != StoreState.loaded ? 650 : null,
-              child: Observer(
-                builder: (_) {
-                  switch (store.state) {
-                    case StoreState.initial:
-                      return const NoInternetConnection();
-                    case StoreState.loading:
-                      return const Loading();
-                    case StoreState.loaded:
-                      if (store.wallpapers!.wallpapers.isEmpty) {
-                        return const NoResults();
-                      } else {
-                        return wallPaper(store.wallpapers!, context);
-                      }
-                  }
-                },
-              ),
-            );
-          }),
+          Observer(
+            builder: (context) {
+              return SizedBox(
+                height: store.state != StoreState.loaded ? 650 : null,
+                child: Observer(
+                  builder: (_) {
+                    switch (store.state) {
+                      case StoreState.initial:
+                        return const NoInternetConnection();
+                      case StoreState.loading:
+                        return const Loading();
+                      case StoreState.loaded:
+                        if (store.wallpapers!.wallpapers.isEmpty) {
+                          return const NoResults();
+                        } else {
+                          return wallPaper(store.wallpapers!, context);
+                        }
+                    }
+                  },
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -85,24 +88,28 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore>
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
-                bottom: TabBar(
-                    onTap: store.sellectTab,
-                    labelPadding: const EdgeInsets.all(0),
-                    isScrollable: true,
-                    indicatorColor: Colors.white,
-                    controller: _tabController,
-                    tabs: List<Widget>.generate(store.categorieList.length,
-                        (int index) {
-                      return Observer(builder: (context) {
-                        return Tab(
-                          icon: CategorieWidget(
-                              categorie: store.categorieList[index]),
-                        );
-                      });
-                    })),
                 pinned: true,
                 floating: true,
                 expandedHeight: 150,
+                bottom: TabBar(
+                  onTap: store.sellectTab,
+                  labelPadding: const EdgeInsets.all(0),
+                  isScrollable: true,
+                  indicatorColor: Colors.white,
+                  controller: _tabController,
+                  tabs: List<Widget>.generate(
+                    store.categorieList.length,
+                    (int index) {
+                      return Observer(builder: (context) {
+                        return Tab(
+                          icon: CategorieWidget(
+                            categorie: store.categorieList[index],
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                ),
                 flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.pin,
                   centerTitle: true,
@@ -115,14 +122,17 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore>
                           const Text(
                             'Wallpaper',
                             style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             'Flutter',
                             style: TextStyle(
-                                color: Theme.of(context).highlightColor,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                              color: Theme.of(context).highlightColor,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -161,7 +171,7 @@ class _HomePageState extends ModularState<HomePage, WallpapersStore>
                   ),
                 ),
               ),
-              test(),
+              body(),
             ],
           ),
         ),

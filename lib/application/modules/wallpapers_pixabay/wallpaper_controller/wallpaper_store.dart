@@ -59,51 +59,33 @@ abstract class _WallpapersStore with Store {
         isSellected: false,
       );
     }
+    _page = 1;
+    _order = 'popular';
+    _imagetype = 'photo';
     switch (index) {
-      case 0:
-        _order = 'popular';
-        _imagetype = 'photo';
-        _page = 1;
-
-        break;
       case 1:
         _order = 'latest';
-        _imagetype = 'photo';
-        _page = 1;
-
-        break;
-      case 2:
-        _order = 'popular';
-        _imagetype = 'photo';
-        _page = 1;
         break;
       case 3:
-        _order = 'popular';
         _imagetype = 'illustration';
-        _page = 1;
         break;
       case 4:
-        _order = 'popular';
         _imagetype = 'vector';
-        _page = 1;
         break;
       case 5:
-        _order = 'popular';
-        _imagetype = 'photo';
         _searshQuery = '';
-        _page = 1;
         break;
       case 6:
-        _order = 'popular';
-        _imagetype = 'photo';
         _searshQuery = '';
-        _page = 1;
     }
     categorieList[index].isSellected = true;
-    getWallpaper();
+    if (index != 5 || index != 6) {
+      getWallpaper();
+    }
   }
 
   void onRefresh() async {
+    _page = 1;
     await getWallpaper()
         .onError((_, __) => refreshController.refreshCompleted());
 
@@ -111,14 +93,26 @@ abstract class _WallpapersStore with Store {
   }
 
   void onLoading() async {
-    // await store
-    //     .loadMoreWallpaper(page: pageIndex)
-    //     .then((_) => pageIndex++)
-    //     .onError((_, __) {
-    //   _refreshController.loadComplete();
-    //   return 0;
-    // });
-    refreshController.loadComplete();
+    Wallpapers? tempMore;
+    _page++;
+    _wallpaperController
+        .getPhotos(
+      searshQuery: _searshQuery,
+      imagetype: _imagetype,
+      order: _order,
+      page: _page,
+    )
+        .then((value) {
+      tempMore = value;
+      Wallpapers temp = wallpapers!;
+      Wallpapers temp1 = wallpapers!;
+      Wallpapers temp2 = tempMore!;
+      temp.wallpapersList = temp1.wallpapersList + temp2.wallpapersList;
+      wallpapers = temp;
+      refreshController.loadComplete();
+    }).onError((_, __) {
+      refreshController.loadComplete();
+    });
   }
 
   @action
