@@ -23,7 +23,7 @@ class WallpaperController {
         'category': category,
         'order': order,
         'page': page,
-        'per_page': '30',
+        'per_page': '10',
         'image_type': imagetype,
         'orientation': 'vertical',
         'colors': color,
